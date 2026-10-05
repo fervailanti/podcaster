@@ -1,6 +1,6 @@
-import { NavigationLink } from '@/components/layout/NavigationLink';
+import { NavigationLink } from '@/components/layout/NavigationLink/NavigationLink';
 import type { PodcastSummary } from '@/podcasts/types';
-import { PodcastArtwork } from './PodcastArtwork';
+import { PodcastArtwork } from '../PodcastArtwork/PodcastArtwork';
 import styles from './PodcastCard.module.css';
 
 export const PodcastCard = ({

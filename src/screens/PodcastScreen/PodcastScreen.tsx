@@ -2,12 +2,13 @@
 
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavigationLink } from '@/components/layout/NavigationLink';
-import { useNavigation } from '@/components/layout/NavigationProvider';
-import { EpisodeTable } from '@/components/podcast/EpisodeTable';
-import { PodcastSidebar } from '@/components/podcast/PodcastSidebar';
+import { NavigationLink } from '@/components/layout/NavigationLink/NavigationLink';
+import { useNavigation } from '@/components/layout/NavigationProvider/NavigationProvider';
+import { EpisodeTable } from '@/components/podcast/EpisodeTable/EpisodeTable';
+import { PodcastSidebar } from '@/components/podcast/PodcastSidebar/PodcastSidebar';
 import { usePodcastDetail } from '@/podcasts/client/hooks';
-import styles from './DetailScreen.module.css';
+import sharedStyles from '../shared/DetailLayout.module.css';
+import styles from './PodcastScreen.module.css';
 
 export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
   const { t } = useTranslation();
@@ -20,20 +21,23 @@ export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
 
   return (
     <main className="pageShell">
-      <NavigationLink href="/" className={styles.back}>
+      <NavigationLink href="/" className={sharedStyles.back}>
         ← {t('backToDiscover')}
       </NavigationLink>
       {loading && (
-        <div className={styles.loadingLayout} aria-label={t('loading')}>
+        <div className={sharedStyles.loadingLayout} aria-label={t('loading')}>
           <div />
           <div />
         </div>
       )}
       {error && <p className="message">{t('loadError')}</p>}
       {data && (
-        <div className={styles.layout}>
+        <div className={sharedStyles.layout}>
           <PodcastSidebar podcast={data} />
-          <section className={styles.content} aria-labelledby="episodes-title">
+          <section
+            className={sharedStyles.content}
+            aria-labelledby="episodes-title"
+          >
             <span className="sectionLabel">
               02 / {t('episodes').toUpperCase()}
             </span>
@@ -45,7 +49,7 @@ export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
             </div>
             <p className={styles.subheading}>{data.title}</p>
             {data.episodeCount > data.episodes.length && (
-              <p className={styles.note}>
+              <p className={sharedStyles.note}>
                 {t('availableEpisodes', { count: data.episodes.length })}
               </p>
             )}

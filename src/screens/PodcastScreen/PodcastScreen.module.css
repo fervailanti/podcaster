@@ -1,0 +1,31 @@
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+}
+.headingRow h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: -0.05em;
+}
+.pill {
+  padding: 9px 12px;
+  border-radius: 7px;
+  background: #e9f3e2;
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.subheading {
+  margin: 8px 0 21px;
+  color: var(--muted);
+  font-size: 14px;
+}
+@media (max-width: 640px) {
+  .headingRow h1 {
+    font-size: 27px;
+  }
+}

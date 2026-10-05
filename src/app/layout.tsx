@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import type { ReactNode } from 'react';
-import { Header } from '@/components/layout/Header';
-import { NavigationProvider } from '@/components/layout/NavigationProvider';
+import { Header } from '@/components/layout/Header/Header';
+import { NavigationProvider } from '@/components/layout/NavigationProvider/NavigationProvider';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { isLocale } from '@/i18n/locales';
 import '@/styles/globals.css';

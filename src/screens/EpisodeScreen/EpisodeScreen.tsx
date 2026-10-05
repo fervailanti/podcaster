@@ -2,12 +2,13 @@
 
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavigationLink } from '@/components/layout/NavigationLink';
-import { useNavigation } from '@/components/layout/NavigationProvider';
-import { PodcastSidebar } from '@/components/podcast/PodcastSidebar';
+import { NavigationLink } from '@/components/layout/NavigationLink/NavigationLink';
+import { useNavigation } from '@/components/layout/NavigationProvider/NavigationProvider';
+import { PodcastSidebar } from '@/components/podcast/PodcastSidebar/PodcastSidebar';
 import { usePodcastDetail } from '@/podcasts/client/hooks';
 import { formatDate, formatDuration } from '@/podcasts/format';
-import styles from './DetailScreen.module.css';
+import sharedStyles from '../shared/DetailLayout.module.css';
+import styles from './EpisodeScreen.module.css';
 
 export const EpisodeScreen = ({
   podcastId,
@@ -27,20 +28,23 @@ export const EpisodeScreen = ({
 
   return (
     <main className="pageShell">
-      <NavigationLink href={`/podcast/${podcastId}`} className={styles.back}>
+      <NavigationLink
+        href={`/podcast/${podcastId}`}
+        className={sharedStyles.back}
+      >
         ← {t('backToPodcast')}
       </NavigationLink>
       {loading && (
-        <div className={styles.loadingLayout} aria-label={t('loading')}>
+        <div className={sharedStyles.loadingLayout} aria-label={t('loading')}>
           <div />
           <div />
         </div>
       )}
       {error && <p className="message">{t('loadError')}</p>}
       {data && (
-        <div className={styles.layout}>
+        <div className={sharedStyles.layout}>
           <PodcastSidebar podcast={data} />
-          <article className={styles.content}>
+          <article className={sharedStyles.content}>
             {episode ? (
               <>
                 <span className="sectionLabel">
@@ -73,7 +77,7 @@ export const EpisodeScreen = ({
                     />
                   </div>
                 ) : (
-                  <p className={styles.note}>{t('audioUnavailable')}</p>
+                  <p className={sharedStyles.note}>{t('audioUnavailable')}</p>
                 )}
               </>
             ) : (

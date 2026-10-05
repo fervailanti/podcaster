@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { NavigationLink } from '@/components/layout/NavigationLink';
+import { NavigationLink } from '@/components/layout/NavigationLink/NavigationLink';
 import { formatDate, formatDuration } from '@/podcasts/format';
 import type { Episode } from '@/podcasts/types';
 import styles from './EpisodeTable.module.css';

@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@/components/layout/NavigationProvider';
-import { PodcastCard } from '@/components/podcast/PodcastCard';
+import { useNavigation } from '@/components/layout/NavigationProvider/NavigationProvider';
+import { PodcastCard } from '@/components/podcast/PodcastCard/PodcastCard';
 import { useTopPodcasts } from '@/podcasts/client/hooks';
 import { matchesPodcast } from '@/podcasts/format';
 import styles from './HomeScreen.module.css';

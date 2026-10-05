@@ -1,4 +1,4 @@
-import { EpisodeScreen } from '@/screens/EpisodeScreen';
+import { EpisodeScreen } from '@/screens/EpisodeScreen/EpisodeScreen';
 
 const EpisodePage = async ({
   params,

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ComponentProps } from 'react';
-import { useNavigation } from './NavigationProvider';
+import { useNavigation } from '../NavigationProvider/NavigationProvider';
 
 export const NavigationLink = (props: ComponentProps<typeof Link>) => {
   const { begin } = useNavigation();

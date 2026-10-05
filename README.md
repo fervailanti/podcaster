@@ -36,8 +36,8 @@ The tests cover the 24-hour client cache, independent detail entries, Apple's da
 | Location         | Responsibility                                                                |
 | ---------------- | ----------------------------------------------------------------------------- |
 | `src/app`        | Exact exercise routes, root layout, and same-origin API endpoints             |
-| `src/screens`    | Composition and page-level state for the three views                          |
-| `src/components` | Reusable visual and navigation components                                     |
+| `src/screens`    | Page-level views, each in its own folder with colocated styles                |
+| `src/components` | Reusable components, each in its own folder with colocated styles when needed |
 | `src/podcasts`   | Domain types, Apple response mapping, server requests, client cache and hooks |
 | `src/i18n`       | `es.json` and `en.json` translations, locale validation, and i18next provider |
 

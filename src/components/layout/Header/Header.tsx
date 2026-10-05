@@ -1,8 +1,8 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { NavigationLink } from './NavigationLink';
-import { useNavigation } from './NavigationProvider';
+import { NavigationLink } from '../NavigationLink/NavigationLink';
+import { useNavigation } from '../NavigationProvider/NavigationProvider';
 import { isLocale } from '@/i18n/locales';
 import styles from './Header.module.css';
 

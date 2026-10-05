@@ -1,4 +1,4 @@
-import { PodcastScreen } from '@/screens/PodcastScreen';
+import { PodcastScreen } from '@/screens/PodcastScreen/PodcastScreen';
 
 const PodcastPage = async ({
   params,
