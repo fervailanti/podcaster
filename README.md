@@ -39,7 +39,7 @@ The tests cover the 24-hour client cache, independent detail entries, Apple's da
 | `src/screens`    | Composition and page-level state for the three views                          |
 | `src/components` | Reusable visual and navigation components                                     |
 | `src/podcasts`   | Domain types, Apple response mapping, server requests, client cache and hooks |
-| `src/i18n`       | Spanish and English interface strings and i18next provider                    |
+| `src/i18n`       | `es.json` and `en.json` translations, locale validation, and i18next provider |
 
 The app uses TypeScript, Next.js App Router, React, i18next, CSS Modules, and custom CSS. Route files stay small, and podcast data is kept separate from presentation. Shared UI state is handled through React Context; screen data stays close to each screen.
 

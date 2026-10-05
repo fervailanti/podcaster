@@ -3,7 +3,7 @@
 import { useTranslation } from 'react-i18next';
 import { NavigationLink } from './NavigationLink';
 import { useNavigation } from './NavigationProvider';
-import { isLocale } from '@/i18n/resources';
+import { isLocale } from '@/i18n/locales';
 import styles from './Header.module.css';
 
 export function Header() {

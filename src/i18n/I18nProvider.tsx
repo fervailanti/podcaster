@@ -3,7 +3,14 @@
 import { createInstance } from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { useState, type ReactNode } from 'react';
-import { resources, type Locale } from './resources';
+import es from './es.json';
+import en from './en.json';
+import type { Locale } from './locales';
+
+const resources = {
+  es: { translation: es },
+  en: { translation: en },
+};
 
 export function I18nProvider({
   locale,
