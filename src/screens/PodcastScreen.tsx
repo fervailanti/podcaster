@@ -9,7 +9,7 @@ import { PodcastSidebar } from '@/components/podcast/PodcastSidebar';
 import { usePodcastDetail } from '@/podcasts/client/hooks';
 import styles from './DetailScreen.module.css';
 
-export function PodcastScreen({ podcastId }: { podcastId: string }) {
+export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
   const { t } = useTranslation();
   const { complete } = useNavigation();
   const { data, loading, error } = usePodcastDetail(podcastId);
@@ -56,4 +56,4 @@ export function PodcastScreen({ podcastId }: { podcastId: string }) {
       <footer className="footer">{t('providedBy')}</footer>
     </main>
   );
-}
+};

@@ -9,13 +9,13 @@ import { usePodcastDetail } from '@/podcasts/client/hooks';
 import { formatDate, formatDuration } from '@/podcasts/format';
 import styles from './DetailScreen.module.css';
 
-export function EpisodeScreen({
+export const EpisodeScreen = ({
   podcastId,
   episodeId,
 }: {
   podcastId: string;
   episodeId: string;
-}) {
+}) => {
   const { t, i18n } = useTranslation();
   const { complete } = useNavigation();
   const { data, loading, error } = usePodcastDetail(podcastId);
@@ -85,4 +85,4 @@ export function EpisodeScreen({
       <footer className="footer">{t('providedBy')}</footer>
     </main>
   );
-}
+};

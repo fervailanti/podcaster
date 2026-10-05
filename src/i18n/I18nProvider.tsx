@@ -12,13 +12,13 @@ const resources = {
   en: { translation: en },
 };
 
-export function I18nProvider({
+export const I18nProvider = ({
   locale,
   children,
 }: {
   locale: Locale;
   children: ReactNode;
-}) {
+}) => {
   const [i18n] = useState(() => {
     const instance = createInstance();
     void instance.use(initReactI18next).init({
@@ -33,4 +33,4 @@ export function I18nProvider({
   });
 
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;
-}
+};

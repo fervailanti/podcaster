@@ -29,7 +29,7 @@ type AppleLookupItem = {
 export type AppleFeed = { feed?: { entry?: AppleFeedEntry[] } };
 export type AppleLookup = { results?: AppleLookupItem[] };
 
-export function normalizeTopPodcasts(feed: AppleFeed): PodcastSummary[] {
+export const normalizeTopPodcasts = (feed: AppleFeed): PodcastSummary[] => {
   if (!Array.isArray(feed.feed?.entry))
     throw new Error('Invalid Apple podcast feed');
 
@@ -48,7 +48,7 @@ export function normalizeTopPodcasts(feed: AppleFeed): PodcastSummary[] {
       },
     ];
   });
-}
+};
 
 const allowedTags = [
   'p',
@@ -68,7 +68,7 @@ const allowedTags = [
   'h4',
 ];
 
-function normalizeEpisode(item: AppleLookupItem): Episode | null {
+const normalizeEpisode = (item: AppleLookupItem): Episode | null => {
   if (item.kind !== 'podcast-episode' || !item.trackId) return null;
 
   return {
@@ -90,12 +90,12 @@ function normalizeEpisode(item: AppleLookupItem): Episode | null {
       typeof item.trackTimeMillis === 'number' ? item.trackTimeMillis : null,
     audioUrl: item.episodeUrl?.startsWith('https://') ? item.episodeUrl : null,
   };
-}
+};
 
-export function normalizePodcastDetail(
+export const normalizePodcastDetail = (
   lookup: AppleLookup,
   summary?: PodcastSummary,
-): PodcastDetail {
+): PodcastDetail => {
   const items = lookup.results;
   if (!Array.isArray(items)) throw new Error('Invalid Apple podcast lookup');
   const podcast = items.find((item) => item.kind === 'podcast');
@@ -116,4 +116,4 @@ export function normalizePodcastDetail(
     episodeCount: podcast.trackCount ?? episodes.length,
     episodes,
   };
-}
+};

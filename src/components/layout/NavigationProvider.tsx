@@ -16,7 +16,7 @@ type NavigationState = {
 
 const NavigationContext = createContext<NavigationState | null>(null);
 
-export function NavigationProvider({ children }: { children: ReactNode }) {
+export const NavigationProvider = ({ children }: { children: ReactNode }) => {
   const [pending, setPending] = useState(false);
   const begin = useCallback(() => setPending(true), []);
   const complete = useCallback(() => setPending(false), []);
@@ -26,10 +26,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       {children}
     </NavigationContext.Provider>
   );
-}
+};
 
-export function useNavigation() {
+export const useNavigation = () => {
   const context = useContext(NavigationContext);
   if (!context) throw new Error('NavigationProvider is missing');
   return context;
-}
+};

@@ -1,10 +1,12 @@
 import { PodcastScreen } from '@/screens/PodcastScreen';
 
-export default async function PodcastPage({
+const PodcastPage = async ({
   params,
 }: {
   params: Promise<{ podcastId: string }>;
-}) {
+}) => {
   const { podcastId } = await params;
   return <PodcastScreen key={podcastId} podcastId={podcastId} />;
-}
+};
+
+export default PodcastPage;

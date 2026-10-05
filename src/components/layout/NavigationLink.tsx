@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import type { ComponentProps } from 'react';
 import { useNavigation } from './NavigationProvider';
 
-export function NavigationLink(props: ComponentProps<typeof Link>) {
+export const NavigationLink = (props: ComponentProps<typeof Link>) => {
   const { begin } = useNavigation();
   const pathname = usePathname();
   return (
@@ -17,4 +17,4 @@ export function NavigationLink(props: ComponentProps<typeof Link>) {
       }}
     />
   );
-}
+};

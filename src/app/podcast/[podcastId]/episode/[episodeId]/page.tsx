@@ -1,10 +1,10 @@
 import { EpisodeScreen } from '@/screens/EpisodeScreen';
 
-export default async function EpisodePage({
+const EpisodePage = async ({
   params,
 }: {
   params: Promise<{ podcastId: string; episodeId: string }>;
-}) {
+}) => {
   const { podcastId, episodeId } = await params;
   return (
     <EpisodeScreen
@@ -13,4 +13,6 @@ export default async function EpisodePage({
       episodeId={episodeId}
     />
   );
-}
+};
+
+export default EpisodePage;

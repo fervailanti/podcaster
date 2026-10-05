@@ -13,11 +13,7 @@ export const metadata: Metadata = {
     'Discover the most popular music podcasts and listen to episodes.',
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   const localeCookie = (await cookies()).get('podcaster-locale')?.value;
   const locale = isLocale(localeCookie) ? localeCookie : 'es';
 
@@ -33,4 +29,6 @@ export default async function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

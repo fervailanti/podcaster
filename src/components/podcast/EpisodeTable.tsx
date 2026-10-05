@@ -6,13 +6,13 @@ import { formatDate, formatDuration } from '@/podcasts/format';
 import type { Episode } from '@/podcasts/types';
 import styles from './EpisodeTable.module.css';
 
-export function EpisodeTable({
+export const EpisodeTable = ({
   podcastId,
   episodes,
 }: {
   podcastId: string;
   episodes: Episode[];
-}) {
+}) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -46,4 +46,4 @@ export function EpisodeTable({
       </table>
     </div>
   );
-}
+};

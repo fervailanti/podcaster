@@ -8,7 +8,7 @@ import { useTopPodcasts } from '@/podcasts/client/hooks';
 import { matchesPodcast } from '@/podcasts/format';
 import styles from './HomeScreen.module.css';
 
-export function HomeScreen() {
+export const HomeScreen = () => {
   const { t } = useTranslation();
   const { complete } = useNavigation();
   const { data, loading, error } = useTopPodcasts();
@@ -91,4 +91,4 @@ export function HomeScreen() {
       <footer className="footer">{t('providedBy')}</footer>
     </main>
   );
-}
+};

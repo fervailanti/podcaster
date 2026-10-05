@@ -3,13 +3,13 @@
 import type { PodcastDetail, PodcastSummary } from '../types';
 import { useCachedResource } from './useCachedResource';
 
-export function useTopPodcasts() {
+export const useTopPodcasts = () => {
   return useCachedResource<PodcastSummary[]>('top', '/api/podcasts');
-}
+};
 
-export function usePodcastDetail(id: string) {
+export const usePodcastDetail = (id: string) => {
   return useCachedResource<PodcastDetail>(
     `podcast:${id}`,
     `/api/podcasts/${id}`,
   );
-}
+};

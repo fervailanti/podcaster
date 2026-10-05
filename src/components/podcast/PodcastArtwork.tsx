@@ -8,12 +8,12 @@ type Props = {
   eager?: boolean;
 };
 
-export function PodcastArtwork({
+export const PodcastArtwork = ({
   src,
   alt,
   size = 'card',
   eager = false,
-}: Props) {
+}: Props) => {
   return (
     <div className={`${styles.artwork} ${styles[size]}`}>
       {src ? (
@@ -31,4 +31,4 @@ export function PodcastArtwork({
       )}
     </div>
   );
-}
+};

@@ -6,7 +6,7 @@ import type { PodcastDetail } from '@/podcasts/types';
 import { PodcastArtwork } from './PodcastArtwork';
 import styles from './PodcastSidebar.module.css';
 
-export function PodcastSidebar({ podcast }: { podcast: PodcastDetail }) {
+export const PodcastSidebar = ({ podcast }: { podcast: PodcastDetail }) => {
   const { t } = useTranslation();
   const href = `/podcast/${podcast.id}`;
 
@@ -36,4 +36,4 @@ export function PodcastSidebar({ podcast }: { podcast: PodcastDetail }) {
       )}
     </aside>
   );
-}
+};

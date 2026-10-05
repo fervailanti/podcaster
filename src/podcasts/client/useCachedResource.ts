@@ -11,7 +11,7 @@ type ResourceState<T> = {
 
 const requests = new Map<string, Promise<unknown>>();
 
-function fetchOnce<T>(url: string): Promise<T> {
+const fetchOnce = <T>(url: string): Promise<T> => {
   const existing = requests.get(url);
   if (existing) return existing as Promise<T>;
 
@@ -24,12 +24,12 @@ function fetchOnce<T>(url: string): Promise<T> {
 
   requests.set(url, request);
   return request;
-}
+};
 
-export function useCachedResource<T>(
+export const useCachedResource = <T>(
   key: string,
   url: string,
-): ResourceState<T> {
+): ResourceState<T> => {
   const [state, setState] = useState<ResourceState<T>>({
     data: null,
     loading: true,
@@ -64,4 +64,4 @@ export function useCachedResource<T>(
   }, [key, url]);
 
   return state;
-}
+};

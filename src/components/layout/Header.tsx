@@ -6,16 +6,16 @@ import { useNavigation } from './NavigationProvider';
 import { isLocale } from '@/i18n/locales';
 import styles from './Header.module.css';
 
-export function Header() {
+export const Header = () => {
   const { t, i18n } = useTranslation();
   const { pending } = useNavigation();
 
-  function changeLanguage(value: string) {
+  const changeLanguage = (value: string) => {
     if (!isLocale(value)) return;
     void i18n.changeLanguage(value);
     document.cookie = `podcaster-locale=${value}; Path=/; Max-Age=31536000; SameSite=Lax`;
     document.documentElement.lang = value;
-  }
+  };
 
   return (
     <header className={styles.header}>
@@ -55,4 +55,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+};

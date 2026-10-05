@@ -3,7 +3,7 @@ import type { PodcastSummary } from '@/podcasts/types';
 import { PodcastArtwork } from './PodcastArtwork';
 import styles from './PodcastCard.module.css';
 
-export function PodcastCard({
+export const PodcastCard = ({
   podcast,
   by,
   eager = false,
@@ -11,7 +11,7 @@ export function PodcastCard({
   podcast: PodcastSummary;
   by: string;
   eager?: boolean;
-}) {
+}) => {
   return (
     <NavigationLink href={`/podcast/${podcast.id}`} className={styles.card}>
       <PodcastArtwork src={podcast.artwork} alt="" eager={eager} />
@@ -21,4 +21,4 @@ export function PodcastCard({
       </span>
     </NavigationLink>
   );
-}
+};

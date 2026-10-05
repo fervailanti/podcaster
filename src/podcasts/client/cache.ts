@@ -5,7 +5,7 @@ type CacheEntry<T> = {
   value: T;
 };
 
-export function readCache<T>(key: string, now = Date.now()): T | null {
+export const readCache = <T>(key: string, now = Date.now()): T | null => {
   try {
     const raw = localStorage.getItem(`podcaster:v1:${key}`);
     if (!raw) return null;
@@ -23,9 +23,13 @@ export function readCache<T>(key: string, now = Date.now()): T | null {
   } catch {
     return null;
   }
-}
+};
 
-export function writeCache<T>(key: string, value: T, now = Date.now()): void {
+export const writeCache = <T>(
+  key: string,
+  value: T,
+  now = Date.now(),
+): void => {
   try {
     localStorage.setItem(
       `podcaster:v1:${key}`,
@@ -34,4 +38,4 @@ export function writeCache<T>(key: string, value: T, now = Date.now()): void {
   } catch {
     // Browsers can disable storage; data still works for this visit.
   }
-}
+};
