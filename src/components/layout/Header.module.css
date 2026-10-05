@@ -1,0 +1,94 @@
+.header {
+  height: 88px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+}
+.inner {
+  width: min(1200px, calc(100% - 64px));
+  height: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.065em;
+}
+.mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 11px;
+  border-radius: 10px;
+  background: var(--teal);
+  color: var(--lime);
+  font-size: 27px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.dot {
+  color: #76a481;
+}
+.actions {
+  display: flex;
+  gap: 17px;
+  align-items: center;
+}
+.language {
+  height: 36px;
+  padding: 0 10px;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--teal);
+  font-size: 16px;
+}
+.language select {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.status {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d5e3e0;
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 640px) {
+  .header {
+    height: 70px;
+  }
+  .inner {
+    width: calc(100% - 32px);
+  }
+  .brand {
+    font-size: 21px;
+  }
+}
