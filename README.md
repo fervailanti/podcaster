@@ -8,7 +8,13 @@ Podcaster is a responsive browser for Apple's [**top 100 music podcasts**](https
 
 This project was built with Next.js, React, TypeScript, TanStack Query, i18next and CSS Modules.
 
-**Live demo:** [podcaster-top.vercel.app](https://podcaster-top.vercel.app)
+#### Live demo: [podcaster-top.vercel.app](https://podcaster-top.vercel.app)
+
+<br />
+
+https://github.com/user-attachments/assets/5848bdf7-2038-4ef1-b9e0-068d25c0bf43
+
+<br />
 
 ## Getting started
 
