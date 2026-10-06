@@ -12,10 +12,7 @@ const NavigationContext = createContext<NavigationState | null>(null);
 
 export const NavigationProvider = ({ children }: { children: ReactNode }) => {
   const [pending, setPending] = useState(false);
-  const begin = useCallback(() => {
-    document.title = 'Podcaster';
-    setPending(true);
-  }, []);
+  const begin = useCallback(() => setPending(true), []);
   const complete = useCallback(() => setPending(false), []);
 
   return (

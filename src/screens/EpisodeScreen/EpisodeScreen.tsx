@@ -69,15 +69,7 @@ export const EpisodeScreen = ({
   const { data, isPending: loading, isError: error } = useQuery(queries.podcastDetail(podcastId));
   const episode = data?.episodes.find((item) => item.id === episodeId);
 
-  useNavigationComplete(
-    loading,
-    episode
-      ? t('metadata.episode.dynamicTitle', {
-          appName: t('appName'),
-          episodeTitle: episode.title
-        })
-      : t('metadata.episode.title', { appName: t('appName') })
-  );
+  useNavigationComplete(loading);
 
   return (
     <main className="pageShell">
