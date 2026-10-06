@@ -24,7 +24,12 @@ export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
 
   const { data, isPending: loading, isError: error } = useQuery(queries.podcastDetail(podcastId));
 
-  useNavigationComplete(loading);
+  useNavigationComplete(
+    loading,
+    data
+      ? t('metadata.podcast.dynamicTitle', { appName: t('appName'), podcastTitle: data.title })
+      : t('metadata.podcast.title', { appName: t('appName') })
+  );
 
   const columns: readonly TableColumn<Episode>[] = [
     {

@@ -16,7 +16,7 @@ export const HomeScreen = () => {
 
   const { data, isPending: loading, isError: error } = useQuery(queries.topPodcasts());
 
-  useNavigationComplete(loading);
+  useNavigationComplete(loading, t('metadata.home.title'));
 
   const [query, setQuery] = useState('');
 
