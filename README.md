@@ -1,4 +1,4 @@
-<img height="70" alt="Podcaster icon" src="src/app/icon.svg" />
+<img height="80" alt="Podcaster icon" src="src/app/icon.svg" />
 
 # Podcaster
 
