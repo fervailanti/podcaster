@@ -17,9 +17,19 @@ type Props = {
   eyebrow?: ReactNode;
   titleHref?: string;
   mediaHref?: string;
+  subtitleHref?: string;
 };
 
-export const Sidebar = ({ media, title, subtitle, body, eyebrow, titleHref, mediaHref }: Props) => (
+export const Sidebar = ({
+  media,
+  title,
+  subtitle,
+  body,
+  eyebrow,
+  titleHref,
+  mediaHref,
+  subtitleHref
+}: Props) => (
   <Card as="aside" className={styles.sidebar}>
     <OptionalLink href={mediaHref}>
       <div className={styles.media}>
@@ -30,7 +40,13 @@ export const Sidebar = ({ media, title, subtitle, body, eyebrow, titleHref, medi
       <OptionalLink href={titleHref}>
         <span className={`${styles.title} ${titleHref ? styles.titleLink : ''}`}>{title}</span>
       </OptionalLink>
-      {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
+      {subtitle && (
+        <div className={styles.subtitle}>
+          <OptionalLink href={subtitleHref} className={styles.subtitleLink}>
+            {subtitle}
+          </OptionalLink>
+        </div>
+      )}
     </div>
     {body && (
       <div className={styles.body}>

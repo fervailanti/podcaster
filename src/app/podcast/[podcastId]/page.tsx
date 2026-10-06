@@ -7,7 +7,11 @@ import { PodcastScreen } from '@/screens/PodcastScreen/PodcastScreen';
 
 type PodcastPageProps = { params: Promise<{ podcastId: string }> };
 
-export const generateMetadata = async (): Promise<Metadata> => getAppMetadata('podcast');
+export const generateMetadata = async ({ params }: PodcastPageProps): Promise<Metadata> => {
+  const { podcastId } = await params;
+
+  return getAppMetadata('podcast', `/podcast/${podcastId}`);
+};
 
 const PodcastPage = async ({ params }: PodcastPageProps) => {
   const { podcastId } = await params;

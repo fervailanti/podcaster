@@ -9,7 +9,11 @@ type EpisodePageProps = {
   params: Promise<{ podcastId: string; episodeId: string }>;
 };
 
-export const generateMetadata = async (): Promise<Metadata> => getAppMetadata('episode');
+export const generateMetadata = async ({ params }: EpisodePageProps): Promise<Metadata> => {
+  const { podcastId, episodeId } = await params;
+
+  return getAppMetadata('episode', `/podcast/${podcastId}/episode/${episodeId}`);
+};
 
 const EpisodePage = async ({ params }: EpisodePageProps) => {
   const { podcastId, episodeId } = await params;

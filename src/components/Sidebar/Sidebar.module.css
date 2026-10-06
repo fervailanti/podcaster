@@ -29,6 +29,9 @@
   color: var(--color-primary);
   font-weight: 700;
 }
+.subtitleLink:hover strong {
+  text-decoration: underline;
+}
 .body {
   padding: var(--space-sm) var(--space-xs) var(--space-sm);
   color: var(--color-text-muted);

@@ -8,6 +8,10 @@ import { I18nProvider } from '@/i18n/I18nProvider';
 import { getLocale } from '@/i18n/server';
 import { NavigationProvider } from '@/navigation';
 
+import { siteMetadata } from './site';
+
+export const metadata = siteMetadata;
+
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const locale = await getLocale();
 

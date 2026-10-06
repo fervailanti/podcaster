@@ -89,6 +89,7 @@ export const EpisodeScreen = ({
             }
             title={data.title}
             titleHref={`/podcast/${podcastId}`}
+            subtitleHref={`/podcast/${podcastId}`}
           />
           <Card as="article" className={sharedStyles.content}>
             {episode ? (

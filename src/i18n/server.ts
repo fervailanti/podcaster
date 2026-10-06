@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 import { defaultLanguage, isLocale, type Locale, LOCALE_COOKIE_NAME } from './config';
@@ -16,13 +17,17 @@ export const getLocale = async () => {
   return isLocale(localeCookie) ? localeCookie : defaultLanguage;
 };
 
-export const getAppMetadata = async (key: MetadataKey) => {
+export const getAppMetadata = async (key: MetadataKey, pathname: string): Promise<Metadata> => {
   const locale = await getLocale();
   const metadata = translations[locale].metadata[key];
   const { appName } = translations[locale];
+  const title = interpolateAppName(metadata.title, appName);
 
   return {
-    title: interpolateAppName(metadata.title, appName),
-    description: interpolateAppName(metadata.description, appName)
+    title,
+    description: metadata.description,
+    alternates: { canonical: pathname },
+    openGraph: { title, description: metadata.description, url: pathname },
+    twitter: { title, description: metadata.description }
   };
 };
