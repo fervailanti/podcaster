@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 
 import styles from './Logo.module.css';
@@ -9,9 +10,14 @@ export const Logo = () => {
 
   return (
     <span className={styles.logo}>
-      <span className={styles.mark} aria-hidden="true">
-        ◉
-      </span>
+      <Image
+        alt="Podcaster icon"
+        className={styles.mark}
+        height={40}
+        priority
+        src="/icon.svg"
+        width={40}
+      />
       {t('appName')}
       <span className={styles.dot} aria-hidden="true">
         .
