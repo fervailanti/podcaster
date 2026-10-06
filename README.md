@@ -1,6 +1,6 @@
-<img height="70" alt="Podcaster" src="https://github.com/user-attachments/assets/16b0e83d-1e2e-4574-8816-4896567d50b7" />
-<br />
-<br />
+<img height="70" alt="Podcaster icon" src="src/app/icon.svg" />
+
+# Podcaster
 
 ### **English** · [Español](README.es.md)
 
