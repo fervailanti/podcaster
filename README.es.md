@@ -8,6 +8,8 @@ Podcaster permite explorar los [**100 podcasts de música más populares**](http
 
 El proyecto está desarrollado con Next.js, React, TypeScript, TanStack Query, i18next y CSS Modules.
 
+**Demo publicada:** [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app)
+
 ## Primeros pasos
 
 Necesitas Node.js **20.9 o posterior** y npm.
@@ -170,4 +172,15 @@ La configuración de formato y lint busca que las revisiones se centren en el co
 
 ## Despliegue
 
-El repositorio puede importarse en Vercel como proyecto Next.js con la configuración de compilación predeterminada. No se necesitan secretos ni variables de entorno. Apple debe ser accesible desde el entorno de despliegue, y la reproducción depende de las URL de audio que proporcione.
+El proyecto se despliega desde `main` en [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app) mediante la integración de GitHub con Vercel. Vercel detecta Next.js y usa su configuración de compilación de producción predeterminada. No se necesitan secretos de aplicación. Apple debe ser accesible desde el entorno de despliegue, y la reproducción depende de las URL de audio que proporcione.
+
+### CI/CD y checks de despliegue
+
+Cada cambio se valida antes de poder publicarse en los alias de producción:
+
+1. Un push a `main` o un pull request inicia el workflow de GitHub Actions **Validate**. Ejecuta `npm ci`, ESLint, TypeScript, Prettier, Vitest y una compilación de producción.
+2. Un push a `main` también crea un despliegue de producción de Vercel desde el repositorio conectado.
+3. Cuando Vercel termina de compilar ese despliegue, emite `vercel.deployment.ready`. El workflow **Deployment check** recibe el evento, obtiene el SHA exacto desplegado y repite la misma suite de validación.
+4. Su paso `vercel/repository-dispatch/actions/status@v1` comunica el resultado como **`Vercel - podcaster: validate`**. Vercel exige ese estado de GitHub antes de asignar los alias de producción.
+
+Los dos workflows cubren momentos distintos del proceso de publicación. **Validate** da feedback inmediato para un push o pull request. **Deployment check** valida la revisión exacta que Vercel ha compilado y decide si puede promocionarse a producción. Vercel lo tiene configurado como un Deployment Check de GitHub que bloquea `deployment-alias` en producción hasta que termina correctamente.

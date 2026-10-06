@@ -8,6 +8,8 @@ Podcaster is a responsive browser for Apple's [**top 100 music podcasts**](https
 
 This project was built with Next.js, React, TypeScript, TanStack Query, i18next and CSS Modules.
 
+**Live demo:** [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app)
+
 ## Getting started
 
 Requires Node.js **20.9 or later** and npm.
@@ -170,4 +172,15 @@ The formatting and lint rules were chosen to keep reviews focused on behavior:
 
 ## Deployment
 
-The repository can be imported into Vercel as a Next.js project with its default build settings. No secrets or environment variables are needed. Apple must be reachable from the deployment environment, and audio playback depends on the URLs supplied by Apple.
+The project is deployed from `main` to [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app) through Vercel's GitHub integration. Vercel detects Next.js and uses its default production build settings. No application secrets are needed. Apple must be reachable from the deployment environment, and audio playback depends on the URLs supplied by Apple.
+
+### CI/CD and deployment checks
+
+Every change is validated before it can be published to the production aliases:
+
+1. A push to `main` or a pull request starts the **Validate** GitHub Actions workflow. It runs `npm ci`, ESLint, TypeScript, Prettier, Vitest and a production build.
+2. A push to `main` also creates a Vercel production deployment from the connected repository.
+3. Once Vercel finishes building that deployment, it emits `vercel.deployment.ready`. The **Deployment check** workflow receives the event, checks out the exact deployed SHA and repeats the same validation suite.
+4. Its `vercel/repository-dispatch/actions/status@v1` step reports the resulting status as **`Vercel - podcaster: validate`**. Vercel requires that GitHub status before assigning the production aliases.
+
+The two workflows deliberately serve different points in the release process. **Validate** gives immediate feedback for a push or pull request. **Deployment check** validates the precise revision Vercel built and controls whether that deployment is promoted to production. This is configured in Vercel as a GitHub Deployment Check that blocks `deployment-alias` for production until it succeeds.
