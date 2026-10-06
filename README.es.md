@@ -2,7 +2,7 @@
 <br />
 <br />
 
-[English](README.md) · **Español**
+### [English](README.md) · **Español**
 
 Podcaster permite explorar los [**100 podcasts de música más populares**](https://podcasts.apple.com/us/charts) de Apple desde una interfaz adaptable. Puedes filtrarlos por título o autor, consultar sus episodios disponibles y escucharlos con el reproductor de audio nativo del navegador. La interfaz está disponible en inglés y español.
 

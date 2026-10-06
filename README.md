@@ -2,7 +2,7 @@
 <br />
 <br />
 
-**English** · [Español](README.es.md)
+### **English** · [Español](README.es.md)
 
 Podcaster is a responsive browser for Apple's [**top 100 music podcasts**](https://podcasts.apple.com/us/charts). It lets you filter the list by title or author, explore a podcast's available episodes, and listen to an episode with the browser's native audio player. The interface is available in English and Spanish.
 
