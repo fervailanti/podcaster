@@ -1,30 +1,48 @@
 {
   "appName": "Podcaster",
+  "metadata": {
+    "home": {
+      "title": "Podcaster — Music podcasts",
+      "description": "Discover the 100 most popular music podcasts and listen to their episodes."
+    },
+    "podcast": {
+      "title": "Music podcast episodes | {{appName}}",
+      "description": "Explore the latest episodes from popular music podcasts."
+    },
+    "episode": {
+      "title": "Listen to a music podcast episode | {{appName}}",
+      "description": "Listen to the latest episodes from popular music podcasts."
+    }
+  },
   "heroEyebrow": "MUSIC · PODCASTS · DISCOVERY",
   "discoverLabel": "DISCOVER",
   "discover": "Find your next listen",
   "discoverLead": "A collection of the most popular music podcasts.",
-  "topPodcasts": "Top 100 podcasts",
+  "topPodcasts": "Top 100 music podcasts",
   "filterLabel": "Filter podcasts",
   "filterPlaceholder": "Search by title or author...",
   "results_one": "{{count}} result",
   "results_other": "{{count}} results",
+  "noResultsIcon": "🔎",
   "noResults": "No podcasts match your search.",
   "episodes": "Episodes",
+  "podcastEpisodes": "PODCAST EPISODES",
   "episodeCount_one": "{{count}} episode",
   "episodeCount_other": "{{count}} episodes",
-  "availableEpisodes": "Showing {{count}} recent episodes",
+  "availableEpisodes_one": "Showing the latest available episode",
+  "availableEpisodes_other": "Showing the latest {{count}} available episodes",
   "title": "Title",
   "date": "Date",
   "duration": "Duration",
   "about": "About the podcast",
   "by": "by",
-  "backToPodcast": "Back to podcast",
-  "backToDiscover": "Back to home",
+  "backToPodcast": "Back to episodes",
+  "backToDiscover": "Back to podcasts",
   "listenNow": "Listen to episode",
   "audioUnavailable": "Audio is unavailable for this episode.",
-  "episodeNotFound": "This episode is not among the available episodes.",
+  "episodeNotFound": "This episode is not available.",
   "loadError": "Podcasts could not be loaded. Please try again later.",
+  "loadErrorIcon": "🚫",
   "loading": "Loading...",
   "language": "Language",
   "spanish": "Español",

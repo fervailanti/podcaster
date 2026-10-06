@@ -1,0 +1,51 @@
+{
+  "appName": "Podcaster",
+  "metadata": {
+    "home": {
+      "title": "Podcaster — Podcasts de música",
+      "description": "Descubre los 100 podcasts de música más populares y escucha sus episodios."
+    },
+    "podcast": {
+      "title": "Episodios de podcasts de música | {{appName}}",
+      "description": "Explora los últimos episodios de los podcasts de música más populares."
+    },
+    "episode": {
+      "title": "Escuchar episodio de un podcast de música | {{appName}}",
+      "description": "Escucha los últimos episodios de los podcasts de música más populares."
+    }
+  },
+  "heroEyebrow": "MÚSICA · PODCASTS · DESCUBRIR",
+  "discoverLabel": "DESCUBRIR",
+  "discover": "Descubre tu próxima escucha",
+  "discoverLead": "Una selección de los podcasts de música más populares.",
+  "topPodcasts": "Los 100 podcasts de música más populares",
+  "filterLabel": "Filtrar podcasts",
+  "filterPlaceholder": "Buscar por título o autor...",
+  "results_one": "{{count}} resultado",
+  "results_other": "{{count}} resultados",
+  "noResultsIcon": "🔎",
+  "noResults": "No encontramos podcasts que coincidan con la búsqueda.",
+  "episodes": "Episodios",
+  "podcastEpisodes": "EPISODIOS DEL PODCAST",
+  "episodeCount_one": "{{count}} episodio",
+  "episodeCount_other": "{{count}} episodios",
+  "availableEpisodes_one": "Mostrando el último episodio disponible",
+  "availableEpisodes_other": "Mostrando los últimos {{count}} episodios disponibles",
+  "title": "Título",
+  "date": "Fecha",
+  "duration": "Duración",
+  "about": "Sobre el podcast",
+  "by": "por",
+  "backToPodcast": "Volver a episodios",
+  "backToDiscover": "Volver a podcasts",
+  "listenNow": "Escuchar episodio",
+  "audioUnavailable": "Este episodio no tiene audio disponible.",
+  "episodeNotFound": "Este episodio no está disponible.",
+  "loadError": "No se pudieron cargar los podcasts. Inténtalo de nuevo más tarde.",
+  "loadErrorIcon": "🚫",
+  "loading": "Cargando...",
+  "language": "Idioma",
+  "spanish": "Español",
+  "english": "English",
+  "providedBy": "Datos de Apple Podcasts"
+}
