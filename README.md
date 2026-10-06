@@ -1,8 +1,10 @@
-# Podcaster
+<img height="70" alt="podcaster" src="https://github.com/user-attachments/assets/16b0e83d-1e2e-4574-8816-4896567d50b7" />
+<br />
+<br />
 
-Podcaster is a responsive browser for Apple's **top 100 music podcasts**. It lets you filter the list by title or author, explore a podcast's available episodes, and listen to an episode with the browser's native audio player. The interface is available in English and Spanish.
+Podcaster is a responsive browser for Apple's [**top 100 music podcasts**](https://podcasts.apple.com/us/charts). It lets you filter the list by title or author, explore a podcast's available episodes, and listen to an episode with the browser's native audio player. The interface is available in English and Spanish.
 
-This project was built for a front-end technical exercise with Next.js, React, TypeScript, TanStack Query, i18next and CSS Modules.
+This project was built with Next.js, React, TypeScript, TanStack Query, i18next and CSS Modules.
 
 ## Getting started
 
