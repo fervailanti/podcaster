@@ -8,7 +8,7 @@ Podcaster permite explorar los [**100 podcasts de música más populares**](http
 
 El proyecto está desarrollado con Next.js, React, TypeScript, TanStack Query, i18next y CSS Modules.
 
-### Demo publicada: 🌐 [podcaster-top.vercel.app](https://podcaster-top.vercel.app)
+#### Demo publicada: 🌐 [podcaster-top.vercel.app](https://podcaster-top.vercel.app)
 
 <br />
 
