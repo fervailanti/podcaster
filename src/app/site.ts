@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
-export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://podcaster.vercel.app');
+export const siteUrl = new URL(
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://podcaster-top.vercel.app'
+);
 
 export const siteMetadata: Metadata = {
   metadataBase: siteUrl,

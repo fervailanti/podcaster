@@ -8,7 +8,7 @@ Podcaster permite explorar los [**100 podcasts de música más populares**](http
 
 El proyecto está desarrollado con Next.js, React, TypeScript, TanStack Query, i18next y CSS Modules.
 
-**Demo publicada:** [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app)
+**Demo publicada:** [podcaster-top.vercel.app](https://podcaster-top.vercel.app)
 
 ## Primeros pasos
 
@@ -172,7 +172,7 @@ La configuración de formato y lint busca que las revisiones se centren en el co
 
 ## Despliegue
 
-El proyecto se despliega desde `main` en [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app) mediante la integración de GitHub con Vercel. Vercel detecta Next.js y usa su configuración de compilación de producción predeterminada. No se necesitan secretos de aplicación. Apple debe ser accesible desde el entorno de despliegue, y la reproducción depende de las URL de audio que proporcione.
+El proyecto se despliega desde `main` en [podcaster-top.vercel.app](https://podcaster-top.vercel.app) mediante la integración de GitHub con Vercel. Vercel detecta Next.js y usa su configuración de compilación de producción predeterminada. No se necesitan secretos de aplicación. Apple debe ser accesible desde el entorno de despliegue, y la reproducción depende de las URL de audio que proporcione.
 
 ### CI/CD y checks de despliegue
 

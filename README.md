@@ -8,7 +8,7 @@ Podcaster is a responsive browser for Apple's [**top 100 music podcasts**](https
 
 This project was built with Next.js, React, TypeScript, TanStack Query, i18next and CSS Modules.
 
-**Live demo:** [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app)
+**Live demo:** [podcaster-top.vercel.app](https://podcaster-top.vercel.app)
 
 ## Getting started
 
@@ -172,7 +172,7 @@ The formatting and lint rules were chosen to keep reviews focused on behavior:
 
 ## Deployment
 
-The project is deployed from `main` to [podcaster-ten.vercel.app](https://podcaster-ten.vercel.app) through Vercel's GitHub integration. Vercel detects Next.js and uses its default production build settings. No application secrets are needed. Apple must be reachable from the deployment environment, and audio playback depends on the URLs supplied by Apple.
+The project is deployed from `main` to [podcaster-top.vercel.app](https://podcaster-top.vercel.app) through Vercel's GitHub integration. Vercel detects Next.js and uses its default production build settings. No application secrets are needed. Apple must be reachable from the deployment environment, and audio playback depends on the URLs supplied by Apple.
 
 ### CI/CD and deployment checks
 
