@@ -7,11 +7,15 @@
     },
     "podcast": {
       "title": "Episodios de podcasts de música | {{appName}}",
-      "description": "Explora los últimos episodios de los podcasts de música más populares."
+      "description": "Explora los últimos episodios de los podcasts de música más populares.",
+      "dynamicTitle": "Episodios de {{podcastTitle}} | {{appName}}",
+      "dynamicDescription": "Explora los últimos episodios disponibles de {{podcastTitle}}."
     },
     "episode": {
       "title": "Escuchar episodio de un podcast de música | {{appName}}",
-      "description": "Escucha los últimos episodios de los podcasts de música más populares."
+      "description": "Escucha los últimos episodios de los podcasts de música más populares.",
+      "dynamicTitle": "{{episodeTitle}} | {{appName}}",
+      "dynamicDescription": "Escucha {{episodeTitle}} de {{podcastTitle}}."
     }
   },
   "heroEyebrow": "MÚSICA · PODCASTS · DESCUBRIR",

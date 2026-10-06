@@ -7,11 +7,15 @@
     },
     "podcast": {
       "title": "Music podcast episodes | {{appName}}",
-      "description": "Explore the latest episodes from popular music podcasts."
+      "description": "Explore the latest episodes from popular music podcasts.",
+      "dynamicTitle": "{{podcastTitle}} episodes | {{appName}}",
+      "dynamicDescription": "Explore the latest available episodes from {{podcastTitle}}."
     },
     "episode": {
       "title": "Listen to a music podcast episode | {{appName}}",
-      "description": "Listen to the latest episodes from popular music podcasts."
+      "description": "Listen to the latest episodes from popular music podcasts.",
+      "dynamicTitle": "{{episodeTitle}} | {{appName}}",
+      "dynamicDescription": "Listen to {{episodeTitle}} from {{podcastTitle}}."
     }
   },
   "heroEyebrow": "MUSIC · PODCASTS · DISCOVERY",
