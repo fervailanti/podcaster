@@ -1,94 +1,69 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@/components/layout/NavigationProvider/NavigationProvider';
-import { PodcastCard } from '@/components/podcast/PodcastCard/PodcastCard';
-import { useTopPodcasts } from '@/podcasts/client/hooks';
-import { matchesPodcast } from '@/podcasts/format';
+
+import { queries } from '@/api/queries';
+import { EmptyState, Footer, SearchBar, SectionHeading, SummaryCard } from '@/components';
+import { useNavigationComplete } from '@/navigation';
+import { matchesSearch } from '@/utils/search';
+
 import styles from './HomeScreen.module.css';
 
 export const HomeScreen = () => {
   const { t } = useTranslation();
-  const { complete } = useNavigation();
-  const { data, loading, error } = useTopPodcasts();
-  const [query, setQuery] = useState('');
-  const filtered = useMemo(
-    () =>
-      data?.filter((podcast) =>
-        matchesPodcast(podcast.title, podcast.author, query),
-      ) ?? [],
-    [data, query],
-  );
 
-  useEffect(() => {
-    if (!loading) complete();
-  }, [loading, complete]);
+  const { data, isPending: loading, isError: error } = useQuery(queries.topPodcasts());
+
+  useNavigationComplete(loading);
+
+  const [query, setQuery] = useState('');
+
+  const filtered = useMemo(
+    () => data?.filter((podcast) => matchesSearch([podcast.title, podcast.author], query)) ?? [],
+    [data, query]
+  );
 
   return (
     <main className="pageShell">
-      <section className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <span className={styles.eyebrow}>{t('heroEyebrow')}</span>
-          <h1>{t('discover')}</h1>
-          <p>{t('discoverLead')}</p>
-        </div>
-        <div className={styles.orbit} aria-hidden="true">
-          <span>♫</span>
-        </div>
-      </section>
-
-      <section className={styles.catalogue} aria-labelledby="top-title">
+      <section aria-labelledby="top-title">
         <div className={styles.toolbar}>
-          <div>
-            <span className="sectionLabel">01 / {t('discoverLabel')}</span>
-            <h2 id="top-title">
-              {t('topPodcasts')}{' '}
-              <span className={styles.count}>{data?.length ?? 100}</span>
-            </h2>
-          </div>
-          <label className={styles.search}>
-            <span className="srOnly">{t('filterLabel')}</span>
-            <span aria-hidden="true">⌕</span>
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={t('filterPlaceholder')}
-            />
-          </label>
+          <SectionHeading
+            caption={data ? t('results', { count: filtered.length }) : '\u00a0'}
+            eyebrow={t('discoverLabel')}
+            id="top-title"
+            title={t('topPodcasts')}
+          />
+          <SearchBar
+            label={t('filterLabel')}
+            value={query}
+            onChange={setQuery}
+            placeholder={t('filterPlaceholder')}
+          />
         </div>
-
-        {loading && (
-          <div className={styles.grid} aria-label={t('loading')}>
-            {Array.from({ length: 8 }, (_, index) => (
-              <div key={index} className={styles.skeleton} />
-            ))}
-          </div>
-        )}
-        {error && <p className="message">{t('loadError')}</p>}
+        {error && <EmptyState icon={t('loadErrorIcon')} text={t('loadError')} />}
         {data && (
           <>
-            <p className={styles.resultCount}>
-              {t('results', { count: filtered.length })}
-            </p>
             {filtered.length ? (
               <div className={styles.grid}>
-                {filtered.map((podcast, index) => (
-                  <PodcastCard
+                {filtered.map((podcast) => (
+                  <SummaryCard
                     key={podcast.id}
-                    podcast={podcast}
-                    by={t('by')}
-                    eager={index === 0}
+                    href={`/podcast/${podcast.id}`}
+                    media={{ src: podcast.artwork, alt: podcast.title }}
+                    title={podcast.title}
+                    caption={`${t('by')} ${podcast.author}`}
                   />
                 ))}
               </div>
             ) : (
-              <p className="message">{t('noResults')}</p>
+              <EmptyState icon={t('noResultsIcon')} text={t('noResults')} />
             )}
           </>
         )}
       </section>
-      <footer className="footer">{t('providedBy')}</footer>
+      <Footer />
     </main>
   );
 };

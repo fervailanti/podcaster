@@ -1,0 +1,14 @@
+.heading {
+  min-width: 0;
+}
+.title {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--font-size-title);
+  line-height: var(--line-height-title);
+  letter-spacing: -0.05em;
+}
+.caption {
+  margin-top: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body);
+}

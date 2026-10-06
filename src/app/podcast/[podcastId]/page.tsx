@@ -1,12 +1,22 @@
+import type { Metadata } from 'next';
+
+import { queries } from '@/api/queries';
+import { PrefetchBoundary } from '@/api/tanstack/PrefetchBoundary';
+import { getAppMetadata } from '@/i18n/server';
 import { PodcastScreen } from '@/screens/PodcastScreen/PodcastScreen';
 
-const PodcastPage = async ({
-  params,
-}: {
-  params: Promise<{ podcastId: string }>;
-}) => {
+type PodcastPageProps = { params: Promise<{ podcastId: string }> };
+
+export const generateMetadata = async (): Promise<Metadata> => getAppMetadata('podcast');
+
+const PodcastPage = async ({ params }: PodcastPageProps) => {
   const { podcastId } = await params;
-  return <PodcastScreen key={podcastId} podcastId={podcastId} />;
+
+  return (
+    <PrefetchBoundary query={queries.podcastDetail(podcastId)}>
+      <PodcastScreen key={podcastId} podcastId={podcastId} />
+    </PrefetchBoundary>
+  );
 };
 
 export default PodcastPage;

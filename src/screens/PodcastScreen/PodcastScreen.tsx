@@ -1,63 +1,83 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { NavigationLink } from '@/components/layout/NavigationLink/NavigationLink';
-import { useNavigation } from '@/components/layout/NavigationProvider/NavigationProvider';
-import { EpisodeTable } from '@/components/podcast/EpisodeTable/EpisodeTable';
-import { PodcastSidebar } from '@/components/podcast/PodcastSidebar/PodcastSidebar';
-import { usePodcastDetail } from '@/podcasts/client/hooks';
-import sharedStyles from '../shared/DetailLayout.module.css';
-import styles from './PodcastScreen.module.css';
+
+import { queries } from '@/api/queries';
+import type { Episode } from '@/api/types';
+import {
+  BackLink,
+  Card,
+  EmptyState,
+  Footer,
+  SectionHeading,
+  Sidebar,
+  Table,
+  type TableColumn
+} from '@/components';
+import { NavigationLink, useNavigationComplete } from '@/navigation';
+import sharedStyles from '@/styles/DetailLayout.module.css';
+import { formatDate, formatDuration } from '@/utils/format';
 
 export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
-  const { t } = useTranslation();
-  const { complete } = useNavigation();
-  const { data, loading, error } = usePodcastDetail(podcastId);
+  const { i18n, t } = useTranslation();
 
-  useEffect(() => {
-    if (!loading) complete();
-  }, [loading, complete]);
+  const { data, isPending: loading, isError: error } = useQuery(queries.podcastDetail(podcastId));
+
+  useNavigationComplete(loading);
+
+  const columns: readonly TableColumn<Episode>[] = [
+    {
+      key: 'title',
+      header: t('title'),
+      render: (episode) => (
+        <NavigationLink href={`/podcast/${podcastId}/episode/${episode.id}`} prefetch={false}>
+          {episode.title}
+        </NavigationLink>
+      )
+    },
+    {
+      key: 'date',
+      header: t('date'),
+      render: (episode) => formatDate(episode.publishedAt, i18n.resolvedLanguage)
+    },
+    {
+      key: 'duration',
+      header: t('duration'),
+      render: (episode) => formatDuration(episode.durationMs)
+    }
+  ];
 
   return (
     <main className="pageShell">
-      <NavigationLink href="/" className={sharedStyles.back}>
-        ← {t('backToDiscover')}
-      </NavigationLink>
-      {loading && (
-        <div className={sharedStyles.loadingLayout} aria-label={t('loading')}>
-          <div />
-          <div />
-        </div>
-      )}
-      {error && <p className="message">{t('loadError')}</p>}
+      <BackLink href="/">{t('backToDiscover')}</BackLink>
+      {error && <EmptyState icon={t('loadErrorIcon')} text={t('loadError')} />}
       {data && (
         <div className={sharedStyles.layout}>
-          <PodcastSidebar podcast={data} />
-          <section
-            className={sharedStyles.content}
-            aria-labelledby="episodes-title"
-          >
-            <span className="sectionLabel">
-              02 / {t('episodes').toUpperCase()}
-            </span>
-            <div className={styles.headingRow}>
-              <h1 id="episodes-title">{t('episodes')}</h1>
-              <span className={styles.pill}>
-                {t('episodeCount', { count: data.episodeCount })}
-              </span>
-            </div>
-            <p className={styles.subheading}>{data.title}</p>
-            {data.episodeCount > data.episodes.length && (
-              <p className={sharedStyles.note}>
-                {t('availableEpisodes', { count: data.episodes.length })}
-              </p>
-            )}
-            <EpisodeTable podcastId={podcastId} episodes={data.episodes} />
-          </section>
+          <Sidebar
+            body={data.description}
+            eyebrow={t('about')}
+            media={{ src: data.artwork, alt: data.title }}
+            subtitle={
+              <>
+                {t('by')} <strong>{data.author}</strong>
+              </>
+            }
+            title={data.title}
+          />
+          <Card as="section" className={sharedStyles.content} aria-labelledby="episodes-title">
+            <SectionHeading
+              caption={t('availableEpisodes', { count: data.episodes.length })}
+              className={sharedStyles.tableHeading}
+              eyebrow={t('podcastEpisodes')}
+              id="episodes-title"
+              title={t('episodeCount', { count: data.episodeCount })}
+            />
+            <Table columns={columns} data={data.episodes} getRowKey={(episode) => episode.id} />
+          </Card>
         </div>
       )}
-      <footer className="footer">{t('providedBy')}</footer>
+      <Footer />
     </main>
   );
 };

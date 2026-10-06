@@ -1,0 +1,10 @@
+.emptyState {
+  margin: var(--space-2xl) 0;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+.emptyIcon {
+  display: block;
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-xl);
+}

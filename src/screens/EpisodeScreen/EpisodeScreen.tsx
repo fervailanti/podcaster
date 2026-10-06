@@ -1,92 +1,105 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { NavigationLink } from '@/components/layout/NavigationLink/NavigationLink';
-import { useNavigation } from '@/components/layout/NavigationProvider/NavigationProvider';
-import { PodcastSidebar } from '@/components/podcast/PodcastSidebar/PodcastSidebar';
-import { usePodcastDetail } from '@/podcasts/client/hooks';
-import { formatDate, formatDuration } from '@/podcasts/format';
-import sharedStyles from '../shared/DetailLayout.module.css';
+
+import { queries } from '@/api/queries';
+import type { Episode } from '@/api/types';
+import {
+  AudioPlayer,
+  BackLink,
+  Card,
+  EmptyState,
+  Footer,
+  SectionHeading,
+  Sidebar
+} from '@/components';
+import { useNavigationComplete } from '@/navigation';
+import sharedStyles from '@/styles/DetailLayout.module.css';
+import { formatDate, formatDuration } from '@/utils/format';
+
 import styles from './EpisodeScreen.module.css';
+
+const EpisodeContent = ({ episode }: { episode: Episode }) => {
+  const { t, i18n } = useTranslation();
+  return (
+    <>
+      <SectionHeading
+        caption={
+          <span className={styles.meta}>
+            {formatDate(episode.publishedAt, i18n.resolvedLanguage)} <span>·</span>{' '}
+            {formatDuration(episode.durationMs)}
+          </span>
+        }
+        className={sharedStyles.tableHeading}
+        eyebrow={
+          <span className={styles.listenLabel}>
+            <span aria-hidden="true">♫</span>
+            <span>{t('listenNow')}</span>
+          </span>
+        }
+        title={episode.title}
+      />
+      {episode.descriptionHtml && (
+        <div
+          className={styles.description}
+          dangerouslySetInnerHTML={{
+            __html: episode.descriptionHtml
+          }}
+        />
+      )}
+      {episode.audioUrl ? (
+        <AudioPlayer label={episode.title} src={episode.audioUrl} />
+      ) : (
+        <p className={sharedStyles.note}>{t('audioUnavailable')}</p>
+      )}
+    </>
+  );
+};
 
 export const EpisodeScreen = ({
   podcastId,
-  episodeId,
+  episodeId
 }: {
   podcastId: string;
   episodeId: string;
 }) => {
-  const { t, i18n } = useTranslation();
-  const { complete } = useNavigation();
-  const { data, loading, error } = usePodcastDetail(podcastId);
+  const { t } = useTranslation();
+
+  const { data, isPending: loading, isError: error } = useQuery(queries.podcastDetail(podcastId));
   const episode = data?.episodes.find((item) => item.id === episodeId);
 
-  useEffect(() => {
-    if (!loading) complete();
-  }, [loading, complete]);
+  useNavigationComplete(loading);
 
   return (
     <main className="pageShell">
-      <NavigationLink
-        href={`/podcast/${podcastId}`}
-        className={sharedStyles.back}
-      >
-        ← {t('backToPodcast')}
-      </NavigationLink>
-      {loading && (
-        <div className={sharedStyles.loadingLayout} aria-label={t('loading')}>
-          <div />
-          <div />
-        </div>
-      )}
-      {error && <p className="message">{t('loadError')}</p>}
+      <BackLink href={`/podcast/${podcastId}`}>{t('backToPodcast')}</BackLink>
+      {error && <EmptyState icon={t('loadErrorIcon')} text={t('loadError')} />}
       {data && (
         <div className={sharedStyles.layout}>
-          <PodcastSidebar podcast={data} />
-          <article className={sharedStyles.content}>
-            {episode ? (
+          <Sidebar
+            body={data.description}
+            eyebrow={t('about')}
+            media={{ src: data.artwork, alt: data.title }}
+            mediaHref={`/podcast/${podcastId}`}
+            subtitle={
               <>
-                <span className="sectionLabel">
-                  03 / {t('listenNow').toUpperCase()}
-                </span>
-                <h1 className={styles.episodeTitle}>{episode.title}</h1>
-                <p className={styles.meta}>
-                  {formatDate(
-                    episode.publishedAt,
-                    i18n.resolvedLanguage ?? 'es',
-                  )}{' '}
-                  <span>·</span> {formatDuration(episode.durationMs)}
-                </p>
-                {episode.descriptionHtml && (
-                  <div
-                    className={styles.description}
-                    dangerouslySetInnerHTML={{
-                      __html: episode.descriptionHtml,
-                    }}
-                  />
-                )}
-                {episode.audioUrl ? (
-                  <div className={styles.player}>
-                    <span>♫ &nbsp; {t('listenNow')}</span>
-                    <audio
-                      controls
-                      preload="none"
-                      src={episode.audioUrl}
-                      aria-label={episode.title}
-                    />
-                  </div>
-                ) : (
-                  <p className={sharedStyles.note}>{t('audioUnavailable')}</p>
-                )}
+                {t('by')} <strong>{data.author}</strong>
               </>
+            }
+            title={data.title}
+            titleHref={`/podcast/${podcastId}`}
+          />
+          <Card as="article" className={sharedStyles.content}>
+            {episode ? (
+              <EpisodeContent episode={episode} />
             ) : (
-              <p className="message">{t('episodeNotFound')}</p>
+              <EmptyState icon={t('loadErrorIcon')} text={t('episodeNotFound')} />
             )}
-          </article>
+          </Card>
         </div>
       )}
-      <footer className="footer">{t('providedBy')}</footer>
+      <Footer />
     </main>
   );
 };

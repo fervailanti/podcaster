@@ -1,0 +1,58 @@
+.link {
+  display: block;
+}
+
+.card {
+  height: 272px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.link:focus-visible .card {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.title {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.titleText {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: var(--font-size-md);
+  font-weight: 800;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.caption {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .card {
+    height: 224px;
+  }
+
+  .titleText {
+    font-size: var(--font-size-sm);
+  }
+}
