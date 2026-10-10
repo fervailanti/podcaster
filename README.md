@@ -34,6 +34,17 @@ npm run build
 npm start
 ```
 
+### Run with Docker
+
+The repository also includes a production Docker image for deployment outside Vercel. It uses Next.js standalone output and runs the minimal generated server as an unprivileged user.
+
+```bash
+docker build --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 --tag podcaster .
+docker run --rm --name podcaster --publish 3000:3000 podcaster
+```
+
+These commands build and run the production image locally; open [http://localhost:3000](http://localhost:3000). The same image can be deployed to any Docker-compatible platform. `NEXT_PUBLIC_SITE_URL` is optional; set it to the public URL of a self-hosted deployment when building the image so canonical metadata uses that domain. Docker Desktop is required for the local workflow.
+
 ## Available commands
 
 | Command                | Purpose                                           |

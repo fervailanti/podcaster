@@ -1,0 +1,11 @@
+.env*
+.git
+.github
+.next
+.vercel
+AGENTS.md
+CLAUDE.md
+node_modules
+npm-debug.log*
+README*.md
+*.tsbuildinfo

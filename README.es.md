@@ -34,6 +34,17 @@ npm run build
 npm start
 ```
 
+### Ejecutar con Docker
+
+El repositorio también incluye una imagen Docker de producción para desplegar fuera de Vercel. Utiliza la salida standalone de Next.js y ejecuta el servidor mínimo generado con un usuario sin privilegios.
+
+```bash
+docker build --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 --tag podcaster .
+docker run --rm --name podcaster --publish 3000:3000 podcaster
+```
+
+Estos comandos construyen y ejecutan localmente la imagen de producción; abre [http://localhost:3000](http://localhost:3000). La misma imagen puede desplegarse en cualquier plataforma compatible con Docker. `NEXT_PUBLIC_SITE_URL` es opcional; configúrala con la URL pública de un despliegue propio al construir la imagen para que los metadatos canónicos usen ese dominio. Hace falta Docker Desktop para el flujo local.
+
 ## Comandos disponibles
 
 | Comando                | Función                                     |
