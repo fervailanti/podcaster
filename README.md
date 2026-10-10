@@ -98,12 +98,20 @@ The main patterns are visible in the code:
 
 Application code is TypeScript/TSX with explicit response and domain types and typed component props. The goal is readable code that can be extended without introducing abstractions ahead of a real use case. Apple JSON is mapped and checked for required fields; it is not fully validated against a runtime schema.
 
-## SSR, data flow and caching
+## Rendering strategy, data flow and caching
 
-1. A Next.js server page passes a query from `src/api/queries.ts` to `PrefetchBoundary`. A fresh `QueryClient` is created for that server render, so cache data is not shared between requests.
+The application uses a deliberate hybrid rendering strategy. Next.js dynamically renders the initial route on the server; TanStack Query prepares the data required by that route, and the client hydrates the resulting query cache to provide interaction and later navigation.
+
+1. A Next.js server page resolves route parameters and passes a query from `src/api/queries.ts` to `PrefetchBoundary`. A fresh `QueryClient` is created for that server render, so cache data is not shared between requests.
 2. The query uses `fetch` to request Apple's RSS feed or podcast lookup. Mappers convert the response to the app's types and sanitize descriptions before presentation.
-3. `PrefetchBoundary` dehydrates the query cache into the server-rendered page. The client screen calls `useQuery` with the **same query key**, so hydration can reuse the prefetched result instead of immediately repeating the request.
+3. `PrefetchBoundary` dehydrates the populated query cache into the server-rendered response. The client screen calls its corresponding hook with the **same query key**, so hydration can reuse the prefetched result without immediately repeating the request.
 4. Later client navigation reuses fresh entries, fetches missing or stale data and persists the browser query cache to `localStorage` when storage is available.
+
+### Why this hybrid strategy
+
+The server is responsible for preparing route data and rendering the initial route, which avoids making the first view depend exclusively on a browser-side request. Client screens own the interactive concerns that need browser capabilities and React hooks: TanStack Query updates, the search field, i18next language changes and navigation progress.
+
+The same typed query definitions are used for server prefetching and client hooks. This prevents parallel data flows for the same Apple resource and lets the hydrated client continue from the cache prepared for the route. The result is dynamic server rendering for the initial request, followed by client hydration and cached navigation.
 
 The top list uses Apple's US music podcast feed. Podcast detail uses Apple's lookup endpoint with `media=podcast`, `entity=podcastEpisode` and `limit=20`. Detail also reads the top list through TanStack Query to reuse its summary description when the podcast appears there. On a direct detail visit, both Apple responses may be needed; on later visits, the cached top list can be reused. A podcast outside the top 100 can therefore have no sidebar description.
 
@@ -155,7 +163,7 @@ There is no project-wide `src/hooks` directory. Each hook stays inside its ownin
 
 ### Next.js App Router
 
-The App Router provides the requested routes and a server-rendered entry point. Each page prefetches its data before rendering the client screen, then hydrates TanStack Query in the browser. The root layout resolves the locale for the initial HTML; each page generates localized metadata for its route without an additional Apple request. The screens remain client components because they use `useQuery`, i18next and local interaction state, while server pages handle route parameters and prefetching.
+The App Router provides the requested routes and the hybrid rendering boundary. Server pages resolve route parameters, prefetch data and prepare the initial route response. Client screens use the hydrated query cache for interaction and navigation. The root layout resolves the locale for the initial HTML; each page generates localized metadata for its route without an additional Apple request. This keeps server responsibilities focused on route preparation and initial rendering while client components handle the browser interactions they require.
 
 ### CSS Modules
 
