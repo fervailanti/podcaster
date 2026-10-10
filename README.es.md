@@ -98,12 +98,20 @@ Estas decisiones se reflejan en el código:
 
 El código de la aplicación está tipado con TypeScript/TSX, incluidos los tipos de respuesta, los modelos de dominio y las propiedades de los componentes. Se prioriza la legibilidad y la posibilidad de ampliar el proyecto cuando aparezca un caso de uso real. El JSON de Apple se transforma y se comprueban sus campos necesarios, aunque no se valida por completo con un esquema en tiempo de ejecución.
 
-## SSR, flujo de datos y caché
+## Estrategia de renderizado, flujo de datos y caché
 
-1. Una página de servidor de Next.js entrega a `PrefetchBoundary` una consulta definida en `src/api/queries.ts`. Se crea un `QueryClient` nuevo para cada renderizado en el servidor, de modo que la caché no se comparte entre peticiones.
+La aplicación utiliza una estrategia de renderizado híbrida y deliberada. Next.js renderiza dinámicamente la ruta inicial en el servidor; TanStack Query prepara los datos necesarios para esa ruta y el cliente hidrata la caché de consultas resultante para proporcionar interacción y navegaciones posteriores.
+
+1. Una página de servidor de Next.js resuelve los parámetros de ruta y entrega a `PrefetchBoundary` una consulta definida en `src/api/queries.ts`. Se crea un `QueryClient` nuevo para cada renderizado en el servidor, de modo que la caché no se comparte entre peticiones.
 2. La consulta usa `fetch` para solicitar el feed RSS o el detalle del podcast a Apple. Los mappers transforman la respuesta a los tipos de la aplicación y sanean las descripciones antes de mostrarlas.
-3. `PrefetchBoundary` deshidrata la caché de consultas en la página renderizada. La pantalla cliente llama a `useQuery` con la **misma clave de consulta**, por lo que la hidratación reutiliza los datos precargados sin repetir inmediatamente la petición.
+3. `PrefetchBoundary` deshidrata la caché ya poblada en la respuesta renderizada en el servidor. La pantalla cliente llama a su hook correspondiente con la **misma clave de consulta**, por lo que la hidratación reutiliza los datos precargados sin repetir inmediatamente la petición.
 4. En las siguientes navegaciones desde el cliente se reutilizan los datos recientes, se solicitan los que falten o hayan caducado y se persiste la caché de consultas en `localStorage` cuando está disponible.
+
+### Por qué esta estrategia híbrida
+
+El servidor prepara los datos de la ruta y renderiza la petición inicial, evitando que la primera vista dependa exclusivamente de una petición iniciada en el navegador. Las pantallas cliente gestionan las preocupaciones interactivas que necesitan capacidades del navegador y hooks de React: actualizaciones de TanStack Query, el texto del buscador, los cambios de idioma de i18next y el progreso de navegación.
+
+Las mismas consultas tipadas se usan para la precarga en servidor y los hooks cliente. Esto evita flujos de datos paralelos para un mismo recurso de Apple y permite que el cliente hidratado continúe desde la caché preparada para la ruta. El resultado es renderizado dinámico en servidor para la petición inicial, seguido de hidratación en cliente y navegación con caché.
 
 El listado principal usa el feed estadounidense de podcasts de música de Apple. El detalle utiliza el endpoint de lookup con `media=podcast`, `entity=podcastEpisode` y `limit=20`. También consulta el listado principal mediante TanStack Query para reutilizar su descripción cuando el podcast está incluido en él. Por eso, una visita directa al detalle puede necesitar ambas respuestas de Apple, mientras que una visita posterior puede aprovechar el listado ya guardado en caché. Si un podcast no está entre los 100 primeros, es posible que no haya una descripción para la barra lateral.
 
@@ -155,7 +163,7 @@ No existe una carpeta global `src/hooks`. Cada hook permanece dentro del módulo
 
 ### Next.js App Router
 
-App Router proporciona las rutas solicitadas y una entrada renderizada en el servidor. Cada página precarga sus datos antes de renderizar la pantalla cliente y después hidrata TanStack Query en el navegador. El layout principal determina el idioma del HTML inicial; cada página genera metadatos traducidos para su ruta sin hacer otra petición a Apple. Las pantallas son componentes cliente porque usan `useQuery`, i18next y estado de interacción local. Las páginas de servidor se ocupan de los parámetros de ruta y la precarga.
+App Router proporciona las rutas solicitadas y el límite de renderizado híbrido. Las páginas de servidor resuelven los parámetros de ruta, precargan datos y preparan la respuesta inicial. Las pantallas cliente usan la caché hidratada para la interacción y la navegación. El layout principal determina el idioma del HTML inicial; cada página genera metadatos traducidos para su ruta sin hacer otra petición a Apple. Así, el servidor se concentra en preparar la ruta y el renderizado inicial, mientras los componentes cliente gestionan las interacciones del navegador que necesitan.
 
 ### CSS Modules
 
