@@ -1,0 +1,9 @@
+.heading {
+  margin: 0 0 var(--space-lg);
+}
+
+@media (max-width: 640px) {
+  .heading {
+    margin: var(--space-xs) var(--space-xs) var(--space-md);
+  }
+}

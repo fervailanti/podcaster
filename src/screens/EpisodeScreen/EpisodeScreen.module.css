@@ -3,6 +3,14 @@
   gap: var(--space-sm);
   font-size: var(--font-size-sm);
 }
+.heading {
+  margin: 0 0 var(--space-lg);
+}
+.note {
+  margin: var(--space-md) 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
 .listenLabel {
   display: inline-flex;
   gap: var(--space-xs);
@@ -29,6 +37,9 @@
   max-width: 100%;
 }
 @media (max-width: 640px) {
+  .heading {
+    margin: var(--space-xs) var(--space-xs) var(--space-md);
+  }
   .description {
     margin-bottom: var(--space-md);
   }

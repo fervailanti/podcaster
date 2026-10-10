@@ -9,14 +9,8 @@
   min-width: 0;
 }
 
-.tableHeading {
-  margin: 0 0 var(--space-lg);
-}
-
-.note {
-  margin: var(--space-md) 0 var(--space-sm);
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
+.withoutSidebar {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (max-width: 800px) {
@@ -29,9 +23,5 @@
 @media (max-width: 640px) {
   .layout {
     grid-template-columns: 1fr;
-  }
-
-  .tableHeading {
-    margin: var(--space-xs) var(--space-xs) var(--space-md);
   }
 }
