@@ -76,11 +76,11 @@ src/
   app/          Next.js routes, root layout and server prefetching
   api/          Apple requests, response types, mappers and query options
     tanstack/   Query client, persistence provider and hydration boundary
-  components/   Reusable UI components, each with its own CSS Module when needed
+  components/   Reusable UI and layout components, each with its own CSS Module when needed
   screens/      Home, podcast and episode screen composition
   i18n/         Locale configuration, translation JSON and metadata
   navigation/   Navigation links and header loading state
-  styles/       Global styles, shared detail layout and design tokens
+  styles/       Global styles and design tokens
   utils/        Date/duration formatting and accent-insensitive search
 ```
 
@@ -92,7 +92,7 @@ The main patterns are visible in the code:
 - **Query options as one source of truth:** `src/api/queries.ts` defines keys and typed query functions once; server prefetching and client `useQuery` use those same definitions.
 - **Composition over screen-specific UI copies:** `Card`, `Artwork`, `Sidebar` and `SummaryCard` provide reusable presentation building blocks. The screens supply their labels, routes and content.
 - **Small, focused state ownership:** the home search stays local to `HomeScreen`; TanStack Query owns remote data; React Context owns only navigation progress. Components do not receive a global app state object.
-- **Colocated component styles:** each component keeps its CSS Module beside its TSX file, while genuinely shared layout and tokens live in `src/styles`.
+- **Colocated component styles:** each component and shared layout keeps its CSS Module beside its TSX file, while global rules and tokens live in `src/styles`.
 
 Application code is TypeScript/TSX with explicit response and domain types and typed component props. The goal is readable code that can be extended without introducing abstractions ahead of a real use case. Apple JSON is mapped and checked for required fields; it is not fully validated against a runtime schema.
 
@@ -120,7 +120,19 @@ The home artwork loads lazily as cards enter view, while the prominent artwork o
 
 The same podcast can be opened from several routes, and both server rendering and client navigation need the same data. TanStack Query provides stable query keys, request deduplication, cache freshness, loading and error states, persistence and hydration without maintaining a custom cache implementation. `src/api/queries.ts` keeps the two query definitions together and infers the returned types from their query functions.
 
-**Context API is used for navigation progress.** `NavigationLink` starts the pending state when a new route is selected. Each screen calls `useNavigationComplete` when its query is no longer pending. `Header` reads the context and shows the spinner beside the language selector. This keeps the indicator shared across routes without putting fetched podcast data in Context.
+### State management responsibilities
+
+The application uses complementary mechanisms according to the lifetime and origin of each value:
+
+- **TanStack Query manages remote state:** Apple responses, query keys, cache freshness, request deduplication, persistence, server prefetching and client hydration.
+- **React Context manages shared interface state:** `NavigationProvider` exposes whether a client-side navigation is pending. `NavigationLink` begins the pending state, each destination screen completes it when its data is ready, and `Header` uses it to show the spinner beside the language selector.
+- **React local state manages screen interaction:** the home search text belongs only to `HomeScreen` and stays there.
+
+The decision follows data ownership rather than a preference for a particular library. Apple data is asynchronous, shared by several routes and subject to a freshness policy. React Context can distribute that data, but its cache lifecycle, request deduplication, persistence, stale-data policy and server hydration would still need application-specific implementation. TanStack Query supplies those capabilities through the same typed query definitions used for server prefetching and client `useQuery`, so the application has one source of truth for each remote resource.
+
+Navigation progress has different characteristics: it is transient interface state, has a small global audience and needs no cache or persistence policy. Context is deliberately limited to that responsibility. The result avoids duplicating server-state logic in a provider while keeping the navigation signal available to `NavigationLink`, destination screens and `Header`.
+
+Using both mechanisms demonstrates practical use of React's built-in Context API and TanStack Query, a widely used server-state library. Each tool handles the concerns it is designed for, keeping the code explicit, focused and easier to extend.
 
 ## Rendering and styling decisions
 
@@ -137,7 +149,7 @@ The small design system has two parts:
 - `src/styles/globals.css` is the runtime source of truth for CSS variables: the color palette, spacing scale, text sizes and line heights, radii, shadows and focus treatment. It also contains the reset and page-wide primitives.
 - `src/styles/theme.ts` exposes the matching variable names through a typed object for TypeScript use. It references CSS variables instead of duplicating their raw values; component CSS Modules currently consume the variables directly.
 
-Reusable components such as `Card`, `Eyebrow`, `SectionHeading`, `SearchBar` and `EmptyState` apply those tokens consistently. Screens compose those pieces and add only their own layout rules. This keeps typography, spacing and interaction states visually coherent while making a palette or scale adjustment central and predictable. The shared two-column detail layout lives in `src/styles/DetailLayout.module.css`.
+Reusable components such as `Card`, `Eyebrow`, `SectionHeading`, `SearchBar` and `EmptyState` apply those tokens consistently. Screens compose those pieces and add only their own layout rules. This keeps typography, spacing and interaction states visually coherent while making a palette or scale adjustment central and predictable. The shared two-column detail composition lives in `src/components/DetailLayout`.
 
 ### Internationalization
 

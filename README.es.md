@@ -76,11 +76,11 @@ src/
   app/          Rutas de Next.js, layout principal y precarga en el servidor
   api/          Peticiones a Apple, tipos de respuesta, mappers y consultas
     tanstack/   Query client, persistencia e hidratación
-  components/   Componentes reutilizables y sus CSS Modules
+  components/   Componentes reutilizables y de layout, con sus CSS Modules
   screens/      Composición de las pantallas de inicio, podcast y episodio
   i18n/         Idiomas, traducciones JSON y metadatos
   navigation/   Enlaces y estado de carga durante la navegación
-  styles/       Estilos globales, layout compartido y tokens de diseño
+  styles/       Estilos globales y tokens de diseño
   utils/        Formato de fechas/duraciones y búsqueda sin acentos
 ```
 
@@ -92,7 +92,7 @@ Estas decisiones se reflejan en el código:
 - **Definición única de las consultas:** `src/api/queries.ts` declara las claves y funciones tipadas que comparten la precarga del servidor y `useQuery` en el cliente.
 - **Composición de componentes:** `Card`, `Artwork`, `Sidebar` y `SummaryCard` forman piezas reutilizables. Cada pantalla aporta sus textos, rutas y contenido.
 - **Estado cerca de quien lo utiliza:** la búsqueda vive en `HomeScreen`; TanStack Query gestiona los datos remotos; React Context solo gestiona el progreso de navegación.
-- **Estilos junto a los componentes:** cada componente conserva su CSS Module al lado del TSX. Los tokens y las reglas de layout realmente compartidas están en `src/styles`.
+- **Estilos junto a los componentes:** cada componente y layout compartido conserva su CSS Module al lado del TSX. Las reglas globales y los tokens están en `src/styles`.
 
 El código de la aplicación está tipado con TypeScript/TSX, incluidos los tipos de respuesta, los modelos de dominio y las propiedades de los componentes. Se prioriza la legibilidad y la posibilidad de ampliar el proyecto cuando aparezca un caso de uso real. El JSON de Apple se transforma y se comprueban sus campos necesarios, aunque no se valida por completo con un esquema en tiempo de ejecución.
 
@@ -120,7 +120,19 @@ Las imágenes del listado principal se cargan de forma diferida al entrar en pan
 
 Un mismo podcast puede abrirse desde distintas rutas, y tanto el renderizado en el servidor como la navegación en el cliente necesitan sus datos. TanStack Query aporta claves estables, deduplicación de peticiones, control de vigencia de la caché, estados de carga y error, persistencia e hidratación sin mantener una implementación propia de caché. `src/api/queries.ts` reúne las dos consultas e infiere el tipo de sus resultados a partir de las funciones que las ejecutan.
 
-**Context API se usa para el progreso de navegación.** `NavigationLink` activa el estado pendiente al seleccionar una nueva ruta. Cada pantalla llama a `useNavigationComplete` cuando su consulta deja de estar pendiente. `Header` lee ese contexto y muestra el spinner junto al selector de idioma. De este modo, el indicador funciona entre rutas sin almacenar los datos de los podcasts en Context.
+### Responsabilidades de gestión de estado
+
+La aplicación usa mecanismos complementarios según el origen y la duración de cada valor:
+
+- **TanStack Query gestiona el estado remoto:** respuestas de Apple, claves de consulta, vigencia de caché, deduplicación de peticiones, persistencia, precarga en servidor e hidratación en cliente.
+- **React Context gestiona estado compartido de interfaz:** `NavigationProvider` expone si hay una navegación iniciada en el cliente. `NavigationLink` activa el estado pendiente, cada pantalla de destino lo completa cuando sus datos están listos y `Header` lo utiliza para mostrar el spinner junto al selector de idioma.
+- **El estado local de React gestiona interacción de pantalla:** el texto del buscador pertenece únicamente a `HomeScreen` y se mantiene allí.
+
+La decisión se basa en la propiedad de los datos, no en una preferencia por una librería concreta. Los datos de Apple son asíncronos, se comparten entre varias rutas y están sujetos a una política de vigencia. React Context puede distribuir esos datos, pero el ciclo de vida de la caché, la deduplicación de peticiones, la persistencia, la política de datos caducados y la hidratación desde servidor seguirían requiriendo una implementación específica de la aplicación. TanStack Query aporta esas capacidades a partir de las mismas consultas tipadas que usan la precarga de servidor y `useQuery` en el cliente, dejando una única fuente de verdad para cada recurso remoto.
+
+El progreso de navegación tiene características distintas: es estado de interfaz transitorio, lo necesitan pocos elementos globales y no requiere una política de caché ni persistencia. Context queda limitado deliberadamente a esa responsabilidad. De este modo se evita duplicar lógica de estado remoto en un provider y la señal de navegación sigue disponible para `NavigationLink`, las pantallas de destino y `Header`.
+
+El uso de ambos mecanismos demuestra experiencia práctica tanto con Context API, integrada en React, como con TanStack Query, una librería ampliamente utilizada para estado remoto. Cada herramienta gestiona las responsabilidades para las que está diseñada, manteniendo el código explícito, acotado y fácil de ampliar.
 
 ## Decisiones de renderizado y estilos
 
@@ -137,7 +149,7 @@ El pequeño sistema de diseño tiene dos partes:
 - `src/styles/globals.css` es la fuente de los valores CSS usados en ejecución: colores, escala de espaciado, tamaños e interlineados de texto, radios, sombras y estilos de foco. También contiene el reset y las reglas globales de la página.
 - `src/styles/theme.ts` expone los nombres de esas variables mediante un objeto tipado para TypeScript. Hace referencia a las variables CSS sin duplicar sus valores; actualmente, los CSS Modules de los componentes consumen esas variables directamente.
 
-Componentes reutilizables como `Card`, `Eyebrow`, `SectionHeading`, `SearchBar` y `EmptyState` aplican los tokens de forma consistente. Las pantallas los combinan y añaden únicamente sus propias reglas de distribución. Así, tipografía, espaciado y estados de interacción mantienen una apariencia coherente, y los ajustes de paleta o escala se hacen desde un lugar central. El layout compartido de dos columnas para los detalles está en `src/styles/DetailLayout.module.css`.
+Componentes reutilizables como `Card`, `Eyebrow`, `SectionHeading`, `SearchBar` y `EmptyState` aplican los tokens de forma consistente. Las pantallas los combinan y añaden únicamente sus propias reglas de distribución. Así, tipografía, espaciado y estados de interacción mantienen una apariencia coherente, y los ajustes de paleta o escala se hacen desde un lugar central. La composición compartida de dos columnas para los detalles está en `src/components/DetailLayout`.
 
 ### Internacionalización
 
