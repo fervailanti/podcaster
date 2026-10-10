@@ -2,6 +2,7 @@ export { Artwork } from './Artwork/Artwork';
 export { AudioPlayer } from './AudioPlayer/AudioPlayer';
 export { BackLink } from './BackLink/BackLink';
 export { Card } from './Card/Card';
+export { DetailLayout } from './DetailLayout/DetailLayout';
 export { EmptyState } from './EmptyState/EmptyState';
 export { Eyebrow } from './Eyebrow/Eyebrow';
 export { Footer } from './Footer/Footer';

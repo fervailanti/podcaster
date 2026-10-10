@@ -8,16 +8,17 @@ import type { Episode } from '@/api/types';
 import {
   BackLink,
   Card,
+  DetailLayout,
   EmptyState,
   Footer,
   SectionHeading,
-  Sidebar,
   Table,
   type TableColumn
 } from '@/components';
 import { NavigationLink, useNavigationComplete } from '@/navigation';
-import sharedStyles from '@/styles/DetailLayout.module.css';
 import { formatDate, formatDuration } from '@/utils/format';
+
+import styles from './PodcastScreen.module.css';
 
 export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
   const { i18n, t } = useTranslation();
@@ -53,29 +54,30 @@ export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
       <BackLink href="/">{t('backToDiscover')}</BackLink>
       {error && <EmptyState icon={t('loadErrorIcon')} text={t('loadError')} />}
       {data && (
-        <div className={sharedStyles.layout}>
-          <Sidebar
-            body={data.description}
-            eyebrow={t('about')}
-            media={{ src: data.artwork, alt: data.title }}
-            subtitle={
+        <DetailLayout
+          sidebar={{
+            body: data.description,
+            eyebrow: t('about'),
+            media: { src: data.artwork, alt: data.title },
+            subtitle: (
               <>
                 {t('by')} <strong>{data.author}</strong>
               </>
-            }
-            title={data.title}
-          />
-          <Card as="section" className={sharedStyles.content} aria-labelledby="episodes-title">
+            ),
+            title: data.title
+          }}
+        >
+          <Card as="section" aria-labelledby="episodes-title">
             <SectionHeading
               caption={t('availableEpisodes', { count: data.episodes.length })}
-              className={sharedStyles.tableHeading}
+              className={styles.heading}
               eyebrow={t('podcastEpisodes')}
               id="episodes-title"
               title={t('episodeCount', { count: data.episodeCount })}
             />
             <Table columns={columns} data={data.episodes} getRowKey={(episode) => episode.id} />
           </Card>
-        </div>
+        </DetailLayout>
       )}
       <Footer />
     </main>

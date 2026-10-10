@@ -9,13 +9,12 @@ import {
   AudioPlayer,
   BackLink,
   Card,
+  DetailLayout,
   EmptyState,
   Footer,
-  SectionHeading,
-  Sidebar
+  SectionHeading
 } from '@/components';
 import { useNavigationComplete } from '@/navigation';
-import sharedStyles from '@/styles/DetailLayout.module.css';
 import { formatDate, formatDuration } from '@/utils/format';
 
 import styles from './EpisodeScreen.module.css';
@@ -31,7 +30,7 @@ const EpisodeContent = ({ episode }: { episode: Episode }) => {
             {formatDuration(episode.durationMs)}
           </span>
         }
-        className={sharedStyles.tableHeading}
+        className={styles.heading}
         eyebrow={
           <span className={styles.listenLabel}>
             <span aria-hidden="true">♫</span>
@@ -51,7 +50,7 @@ const EpisodeContent = ({ episode }: { episode: Episode }) => {
       {episode.audioUrl ? (
         <AudioPlayer label={episode.title} src={episode.audioUrl} />
       ) : (
-        <p className={sharedStyles.note}>{t('audioUnavailable')}</p>
+        <p className={styles.note}>{t('audioUnavailable')}</p>
       )}
     </>
   );
@@ -76,29 +75,30 @@ export const EpisodeScreen = ({
       <BackLink href={`/podcast/${podcastId}`}>{t('backToPodcast')}</BackLink>
       {error && <EmptyState icon={t('loadErrorIcon')} text={t('loadError')} />}
       {data && (
-        <div className={sharedStyles.layout}>
-          <Sidebar
-            body={data.description}
-            eyebrow={t('about')}
-            media={{ src: data.artwork, alt: data.title }}
-            mediaHref={`/podcast/${podcastId}`}
-            subtitle={
+        <DetailLayout
+          sidebar={{
+            body: data.description,
+            eyebrow: t('about'),
+            media: { src: data.artwork, alt: data.title },
+            mediaHref: `/podcast/${podcastId}`,
+            subtitle: (
               <>
                 {t('by')} <strong>{data.author}</strong>
               </>
-            }
-            title={data.title}
-            titleHref={`/podcast/${podcastId}`}
-            subtitleHref={`/podcast/${podcastId}`}
-          />
-          <Card as="article" className={sharedStyles.content}>
+            ),
+            subtitleHref: `/podcast/${podcastId}`,
+            title: data.title,
+            titleHref: `/podcast/${podcastId}`
+          }}
+        >
+          <Card as="article">
             {episode ? (
               <EpisodeContent episode={episode} />
             ) : (
               <EmptyState icon={t('loadErrorIcon')} text={t('episodeNotFound')} />
             )}
           </Card>
-        </div>
+        </DetailLayout>
       )}
       <Footer />
     </main>
