@@ -75,11 +75,13 @@ Es una aplicación Next.js pequeña, **organizada por capas y compuesta con comp
 src/
   app/          Rutas de Next.js, layout principal y precarga en el servidor
   api/          Peticiones a Apple, tipos de respuesta, mappers y consultas
+    hooks/      Hooks cliente para datos remotos de podcasts
     tanstack/   Query client, persistencia e hidratación
   components/   Componentes reutilizables y de layout, con sus CSS Modules
   screens/      Composición de las pantallas de inicio, podcast y episodio
   i18n/         Idiomas, traducciones JSON y metadatos
-  navigation/   Enlaces y estado de carga durante la navegación
+  navigation/   Enlaces, provider y hooks de navegación
+    hooks/      Acceso al contexto y finalización de navegación
   styles/       Estilos globales y tokens de diseño
   utils/        Formato de fechas/duraciones y búsqueda sin acentos
 ```
@@ -133,6 +135,21 @@ La decisión se basa en la propiedad de los datos, no en una preferencia por una
 El progreso de navegación tiene características distintas: es estado de interfaz transitorio, lo necesitan pocos elementos globales y no requiere una política de caché ni persistencia. Context queda limitado deliberadamente a esa responsabilidad. De este modo se evita duplicar lógica de estado remoto en un provider y la señal de navegación sigue disponible para `NavigationLink`, las pantallas de destino y `Header`.
 
 El uso de ambos mecanismos demuestra experiencia práctica tanto con Context API, integrada en React, como con TanStack Query, una librería ampliamente utilizada para estado remoto. Cada herramienta gestiona las responsabilidades para las que está diseñada, manteniendo el código explícito, acotado y fácil de ampliar.
+
+### Custom hooks
+
+El proyecto tiene cuatro hooks pequeños, ubicados junto al módulo que posee el estado o integración que abstraen:
+
+| Hook                    | Ubicación              | Responsabilidad                                                                                                 |
+| ----------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `useTopPodcasts`        | `src/api/hooks`        | Conecta la pantalla de inicio con la consulta tipada del listado de podcasts.                                   |
+| `usePodcastDetail`      | `src/api/hooks`        | Conecta las pantallas de podcast y episodio con la consulta tipada compartida del detalle.                      |
+| `useNavigation`         | `src/navigation/hooks` | Proporciona acceso seguro al contexto de navegación, al estado `pending` y a las acciones `begin` y `complete`. |
+| `useNavigationComplete` | `src/navigation/hooks` | Completa una navegación pendiente cuando los datos de la pantalla de destino terminan de cargar.                |
+
+Los hooks de API mantienen las pantallas independientes de la configuración de TanStack Query, mientras `queries.ts` sigue siendo la única definición reutilizada por la precarga en servidor. Los hooks de navegación mantienen el consumo de Context y el ciclo de navegación fuera de los componentes de presentación.
+
+No existe una carpeta global `src/hooks`. Cada hook permanece dentro del módulo al que pertenece para que sus dependencias y responsabilidad sean visibles desde su ubicación: los hooks de API dependen de las consultas de API y los de navegación, del contexto de navegación. Los `index.ts` locales ofrecen imports concisos y permiten dividir un hook en más archivos cuando aparezca una necesidad real.
 
 ## Decisiones de renderizado y estilos
 

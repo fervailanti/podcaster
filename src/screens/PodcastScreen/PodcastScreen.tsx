@@ -1,9 +1,8 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
-import { queries } from '@/api/queries';
+import { usePodcastDetail } from '@/api/hooks';
 import type { Episode } from '@/api/types';
 import {
   BackLink,
@@ -23,7 +22,7 @@ import styles from './PodcastScreen.module.css';
 export const PodcastScreen = ({ podcastId }: { podcastId: string }) => {
   const { i18n, t } = useTranslation();
 
-  const { data, isPending: loading, isError: error } = useQuery(queries.podcastDetail(podcastId));
+  const { data, isPending: loading, isError: error } = usePodcastDetail(podcastId);
 
   useNavigationComplete(loading);
 

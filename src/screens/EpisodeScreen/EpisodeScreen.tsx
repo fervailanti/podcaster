@@ -1,9 +1,8 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
-import { queries } from '@/api/queries';
+import { usePodcastDetail } from '@/api/hooks';
 import type { Episode } from '@/api/types';
 import {
   AudioPlayer,
@@ -65,7 +64,7 @@ export const EpisodeScreen = ({
 }) => {
   const { t } = useTranslation();
 
-  const { data, isPending: loading, isError: error } = useQuery(queries.podcastDetail(podcastId));
+  const { data, isPending: loading, isError: error } = usePodcastDetail(podcastId);
   const episode = data?.episodes.find((item) => item.id === episodeId);
 
   useNavigationComplete(loading);
