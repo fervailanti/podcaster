@@ -1,14 +1,14 @@
 'use client';
 
-import { createContext, type ReactNode, useCallback, useContext, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useState } from 'react';
 
-type NavigationState = {
+export type NavigationState = {
   pending: boolean;
   begin: () => void;
   complete: () => void;
 };
 
-const NavigationContext = createContext<NavigationState | null>(null);
+export const NavigationContext = createContext<NavigationState | null>(null);
 
 export const NavigationProvider = ({ children }: { children: ReactNode }) => {
   const [pending, setPending] = useState(false);
@@ -20,10 +20,4 @@ export const NavigationProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </NavigationContext.Provider>
   );
-};
-
-export const useNavigation = () => {
-  const context = useContext(NavigationContext);
-  if (!context) throw new Error('NavigationProvider is missing');
-  return context;
 };

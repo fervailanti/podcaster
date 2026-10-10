@@ -1,10 +1,9 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { queries } from '@/api/queries';
+import { useTopPodcasts } from '@/api/hooks';
 import { EmptyState, Footer, SearchBar, SectionHeading, SummaryCard } from '@/components';
 import { useNavigationComplete } from '@/navigation';
 import { matchesSearch } from '@/utils/search';
@@ -14,7 +13,7 @@ import styles from './HomeScreen.module.css';
 export const HomeScreen = () => {
   const { t } = useTranslation();
 
-  const { data, isPending: loading, isError: error } = useQuery(queries.topPodcasts());
+  const { data, isPending: loading, isError: error } = useTopPodcasts();
 
   useNavigationComplete(loading);
 

@@ -1,3 +1,3 @@
-export { NavigationLink } from './NavigationLink/NavigationLink';
-export { NavigationProvider, useNavigation } from './NavigationProvider/NavigationProvider';
-export { useNavigationComplete } from './useNavigationComplete';
+export { useNavigation, useNavigationComplete } from './hooks';
+export { NavigationLink } from './NavigationLink';
+export { NavigationProvider } from './NavigationProvider';

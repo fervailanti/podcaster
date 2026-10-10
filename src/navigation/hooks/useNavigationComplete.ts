@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { useNavigation } from './NavigationProvider/NavigationProvider';
+import { useNavigation } from './useNavigation';
 
 export const useNavigationComplete = (loading: boolean) => {
   const { complete } = useNavigation();
